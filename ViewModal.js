@@ -1,4 +1,5 @@
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 <AntDesign name="edit" size={24} color="black" />;
 export function ViewModal() {
@@ -21,6 +22,12 @@ export function ViewModal() {
             Quisquam
           </Text>
         </View>
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>Eliminar Transacción</Text>
+          <TouchableOpacity style={styles.deleteButton}>
+            <Text style={{ color: "#fff", fontWeight: "bold" }}>Eliminar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </>
   );
@@ -37,7 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   description: {
-    paddingHorizontal: 10,
+    paddingHorizontal: "5%",
     paddingBottom: 10,
   },
   descriptionText: {
@@ -62,11 +69,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "#B9C1C3",
     top: "50%",
-    transform: [{ translateY: -150 }],
+    transform: [{ translateY: -175 }],
     marginHorizontal: "5%",
     width: "90%",
     zIndex: 2,
-    height: 300,
+    height: 350,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
   },
@@ -77,5 +84,25 @@ const styles = StyleSheet.create({
     backgroundColor: "#657274",
     height: 30,
     alignItems: "center",
+  },
+  footer: {
+    gap: 5,
+    marginHorizontal: "5%",
+  },
+  footerText: {
+    fontSize: 13,
+    fontWeight: "bold",
+    color: "#d77",
+    fontStyle: "italic",
+    fontVariant: "small-caps",
+  },
+  deleteButton: {
+    width: "100%",
+    backgroundColor: "#ff000055",
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+    borderRadius: 10,
   },
 });

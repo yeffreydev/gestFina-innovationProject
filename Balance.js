@@ -20,7 +20,6 @@ export function Balance() {
         <Text style={styles.text}>Balance</Text>
         <Text style={styles.text}>S/. 0.00</Text>
       </View>
-      {/* <MyModal /> */}
       <TouchableOpacity style={styles.select} onPress={open}>
         <Text style={{ color: "#fff", fontSize: 20, fontWeight: "bold" }}>{times[selectedTime]}</Text>
         <Entypo name="chevron-down" size={24} color="#fff" />
@@ -34,22 +33,15 @@ export function Balance() {
           <Picker.Item label={times.all} value="all" />
         </Picker>
       </View>
-      {/* <Modal style={{ flex: 1, position: "relative" }}>
-        <TouchableOpacity style={{ flex: 1, backgroundColor: "red", position: "absolute", width: "100%", height: "100%" }}>
-          <Text>modal content</Text>
-        </TouchableOpacity>
-        <View>
-          <Text>modal content</Text>
-        </View>
-      </Modal> */}
+
       <View style={styles.resumen}>
         <View style={styles.gastos}>
           <Text style={styles.text}>Gastos</Text>
-          <Text style={{ color: "#f00" }}>S/ -100.00</Text>
+          <Text style={{ color: "#d77", fontWeight: "bold" }}>S/ -100.00</Text>
         </View>
         <View style={styles.ingresos}>
           <Text style={styles.text}>Ingresos</Text>
-          <Text style={{ color: "#0f0" }}>S/ 100.00</Text>
+          <Text style={{ color: "#00aa99", fontWeight: "bold" }}>S/ 100.00</Text>
         </View>
       </View>
     </View>
