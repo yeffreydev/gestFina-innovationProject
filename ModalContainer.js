@@ -2,7 +2,7 @@ import { View, StyleSheet, TouchableWithoutFeedback, Modal } from "react-native"
 import React, { useContext } from "react";
 import { AppContext } from "./AppState";
 
-import { FontAwesome } from "@expo/vector-icons";
+// import { FontAwesome } from "@expo/vector-icons";
 export const ModalContainer = ({ children }) => {
   const {
     appState: { isOpenModal },
