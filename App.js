@@ -11,14 +11,14 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#2E3432" barStyle={"light-content"} />
       <AppProvider>
-        {/* modal container  */}
-        <ModalContainer />
+        {/* view modal  */}
+        <ModalContainer>
+          <ViewModal />
+        </ModalContainer>
         {/* app  */}
         <NavBar />
         <Balance />
         <TransactionsList />
-        {/* modal  */}
-        <ViewModal />
       </AppProvider>
     </SafeAreaView>
   );

@@ -1,19 +1,12 @@
 import { View, StyleSheet, Text } from "react-native";
-import { AppContext } from "./AppState";
-import { useContext } from "react";
 export function ViewModal() {
-  const {
-    appState: { isOpenModal },
-  } = useContext(AppContext);
   return (
     <>
-      {isOpenModal ? (
-        <View style={styles.container}>
-          <View>
-            <Text>01 de junio del 2023</Text>
-          </View>
+      <View style={styles.container}>
+        <View>
+          <Text>01 de junio del 2023</Text>
         </View>
-      ) : null}
+      </View>
     </>
   );
 }
@@ -26,7 +19,7 @@ const styles = StyleSheet.create({
     transform: [{ translateY: -200 }],
     marginHorizontal: "5%",
     width: "90%",
-    zIndex: 20,
+    zIndex: 2,
     height: 400,
   },
 });

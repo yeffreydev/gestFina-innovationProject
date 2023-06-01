@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet, Dimensions, TouchableWithoutFeedback } from "react-native";
-import React, { useContext, useState } from "react";
+import { View, StyleSheet, TouchableWithoutFeedback, Modal } from "react-native";
+import React, { useContext } from "react";
 import { AppContext } from "./AppState";
 
+import { FontAwesome } from "@expo/vector-icons";
 export const ModalContainer = ({ children }) => {
-  const [{ width, height }, setSize] = useState({ width: 0, height: 0 });
   const {
     appState: { isOpenModal },
     setAppState,
@@ -12,27 +12,41 @@ export const ModalContainer = ({ children }) => {
     setAppState({ isOpenModal: false });
   };
   return (
-    <View style={styles.container} onLayout={() => setSize(Dimensions.get("screen"))}>
+    <Modal animationType="none" transparent={true} onRequestClose={pressOut} visible={isOpenModal}>
       {isOpenModal && (
         <TouchableWithoutFeedback onPress={pressOut}>
-          <View style={{ zIndex: 10, backgroundColor: "#0008", width, height, position: "absolute", left: 0, top: 0 }}></View>
+          <View style={styles.touchable}></View>
         </TouchableWithoutFeedback>
       )}
-      <View style={styles.content}>{children}</View>
-    </View>
+      {children}
+      {/* <View style={styles.close}>
+        <FontAwesome name="close" size={50} color="#f2f2f2e6" />
+      </View> */}
+    </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    flex: 1,
-    zIndex: 9,
+  container: {},
+  touchable: {
     position: "absolute",
-    alignItems: "center",
+    zIndex: 1,
+    width: "100%",
+    backgroundColor: "rgba(0,0,0,0.2)",
+    height: "100%",
   },
   content: {
-    flex: 1,
+    position: "absolute",
+    width: "90%",
+    height: 400,
+    zIndex: 2,
+    marginHorizontal: "5%",
+    backgroundColor: "#fff",
+  },
+  close: {
+    position: "absolute",
+    bottom: "5%",
     width: "100%",
+    alignItems: "center",
   },
 });
