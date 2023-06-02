@@ -1,9 +1,19 @@
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { useContext } from "react";
+import { AppContext } from "./AppState";
 
 import { AntDesign } from "@expo/vector-icons";
 <AntDesign name="edit" size={24} color="black" />;
-export function ViewModal() {
+export function ViewModal({ navigation }) {
+  const { setAppState } = useContext(AppContext);
+  const closeModal = () => {
+    setAppState({ isOpenModal: false });
+  };
+  const goToEdit = () => {
+    closeModal();
+    navigation.navigate("EditTransaction");
+  };
   return (
     <>
       <View style={styles.container}>
@@ -14,7 +24,7 @@ export function ViewModal() {
           </TouchableOpacity>
         </View>
         <View>
-          <TouchableOpacity style={{ flexDirection: "row", justifyContent: "flex-start", gap: 10 }}>
+          <TouchableOpacity onPress={goToEdit} style={{ flexDirection: "row", justifyContent: "flex-start", gap: 10 }}>
             <AntDesign name="edit" size={24} color="#657274" />
             <Text style={{ color: "#657274" }}>Editar Transacción</Text>
           </TouchableOpacity>
