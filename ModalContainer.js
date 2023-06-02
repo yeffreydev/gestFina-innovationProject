@@ -2,7 +2,6 @@ import { View, StyleSheet, TouchableWithoutFeedback, Modal } from "react-native"
 import React, { useContext } from "react";
 import { AppContext } from "./AppState";
 
-// import { FontAwesome } from "@expo/vector-icons";
 export const ModalContainer = ({ children }) => {
   const {
     appState: { isOpenModal },
@@ -12,16 +11,13 @@ export const ModalContainer = ({ children }) => {
     setAppState({ isOpenModal: false });
   };
   return (
-    <Modal animationType="none" transparent={true} onRequestClose={pressOut} visible={isOpenModal}>
+    <Modal animationType={"slide"} transparent={true} onRequestClose={pressOut} visible={isOpenModal}>
       {isOpenModal && (
         <TouchableWithoutFeedback onPress={pressOut}>
           <View style={styles.touchable}></View>
         </TouchableWithoutFeedback>
       )}
       {children}
-      {/* <View style={styles.close}>
-        <FontAwesome name="close" size={50} color="#f2f2f2e6" />
-      </View> */}
     </Modal>
   );
 };

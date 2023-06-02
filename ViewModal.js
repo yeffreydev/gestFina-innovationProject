@@ -1,5 +1,6 @@
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
+
 import { AntDesign } from "@expo/vector-icons";
 <AntDesign name="edit" size={24} color="black" />;
 export function ViewModal() {
@@ -9,7 +10,13 @@ export function ViewModal() {
         <View style={styles.header}>
           <Text style={styles.lightText}>01 de junio del 2023 13:00PM</Text>
           <TouchableOpacity>
-            <AntDesign name="edit" size={24} color="#B9C1C3" />
+            <FontAwesome name="close" size={24} color="#fff" />
+          </TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity style={{ flexDirection: "row", justifyContent: "flex-start", gap: 10 }}>
+            <AntDesign name="edit" size={24} color="#657274" />
+            <Text style={{ color: "#657274" }}>Editar Transacción</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.amountContent}>
@@ -48,7 +55,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   descriptionText: {
-    color: "#373F40",
+    color: "#505A5B",
     fontSize: 15,
     textAlign: "justify",
     fontWeight: "500",
@@ -76,6 +83,7 @@ const styles = StyleSheet.create({
     height: 350,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
+    gap: 5,
   },
   header: {
     flexDirection: "row",

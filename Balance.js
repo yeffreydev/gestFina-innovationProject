@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, TouchableOpacity, Modal } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useState, useRef } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { Entypo } from "@expo/vector-icons";
@@ -37,11 +37,11 @@ export function Balance() {
       <View style={styles.resumen}>
         <View style={styles.gastos}>
           <Text style={styles.text}>Gastos</Text>
-          <Text style={{ color: "#d77", fontWeight: "bold" }}>S/ -100.00</Text>
+          <Text style={{ color: "#FF8585", fontWeight: "bold" }}>S/ -100.00</Text>
         </View>
         <View style={styles.ingresos}>
           <Text style={styles.text}>Ingresos</Text>
-          <Text style={{ color: "#00aa99", fontWeight: "bold" }}>S/ 100.00</Text>
+          <Text style={{ color: "#78FBD3", fontWeight: "bold" }}>S/ 100.00</Text>
         </View>
       </View>
     </View>
