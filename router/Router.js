@@ -11,8 +11,16 @@ const Router = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-        <Stack.Screen name="NewTransaction" component={NewTransaction} />
-        <Stack.Screen name="EditTransaction" component={EditTrasaction} />
+        <Stack.Screen
+          name="NewTransaction"
+          component={NewTransaction}
+          options={{ headerStyle: { backgroundColor: "#2E3432" }, headerTintColor: "#fff", headerTitleStyle: { fontWeight: "bold" }, headerTitle: "Agregar" }}
+        />
+        <Stack.Screen
+          name="EditTransaction"
+          component={EditTrasaction}
+          options={{ headerStyle: { backgroundColor: "#2E3432" }, headerTintColor: "#fff", headerTitleStyle: { fontWeight: "bold" }, headerTitle: "Actualizar" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

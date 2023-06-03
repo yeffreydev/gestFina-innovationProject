@@ -19,11 +19,11 @@ export function ViewModal({ navigation }) {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.lightText}>01 de junio del 2023 13:00PM</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={closeModal}>
             <FontAwesome name="close" size={24} color="#fff" />
           </TouchableOpacity>
         </View>
-        <View>
+        <View style={{ alignSelf: "flex-start" }}>
           <TouchableOpacity onPress={goToEdit} style={{ flexDirection: "row", justifyContent: "flex-start", gap: 10 }}>
             <AntDesign name="edit" size={24} color="#657274" />
             <Text style={{ color: "#657274" }}>Editar Transacción</Text>

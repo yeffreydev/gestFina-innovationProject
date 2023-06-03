@@ -1,6 +1,17 @@
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
+import TransactionForm from "../TransactionForm";
 function EditTrasaction({ navigation }) {
-  return <View></View>;
+  return (
+    <View style={styles.container}>
+      <TransactionForm isEdit={true} />
+    </View>
+  );
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#2E3432",
+  },
+});
 export default EditTrasaction;
