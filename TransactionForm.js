@@ -1,15 +1,24 @@
+import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-
+import { validateAmount } from "./helpers";
 const categories = {
   food: "Comida",
 };
 
 function TransactionForm({ isEdit, transaction }) {
+  const [transactionState, setTransactionState] = useState({ amount: "" });
+  const handlerAmountChange = (textNumber) => {
+    const isNumberValid = validateAmount(textNumber);
+    if (isNumberValid) setTransactionState((prev) => ({ ...prev, amount: textNumber }));
+  };
+  useEffect(() => {
+    if (isEdit && transaction) setTransactionState(transaction);
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.group}>
         <Text style={styles.text}>Monto</Text>
-        <TextInput style={styles.input} keyboardType="numeric" placeholderTextColor={"#ACBAB5"} placeholder="Monto" />
+        <TextInput style={styles.input} value={transactionState.amount} onChangeText={handlerAmountChange} keyboardType="numeric" placeholderTextColor={"#ACBAB5"} placeholder="Monto" />
       </View>
       <View style={styles.group}>
         <Text style={styles.text}>Descripción</Text>
