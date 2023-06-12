@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { validateAmount, validateDescription } from "./helpers";
+import { Entypo } from "@expo/vector-icons";
+import { Picker } from "@react-native-picker/picker";
 
 const categories = {
   salary: "Salario",
@@ -18,11 +20,11 @@ const categories = {
   education: "Educación",
   savingsAndInvestments: "Ahorros e Inversiones",
   debts: "Deudas",
-  otros: "Otros",
+  others: "Otros",
 };
 
 function TransactionForm({ isEdit, transaction }) {
-  const [transactionState, setTransactionState] = useState({ amount: "", description: "" });
+  const [transactionState, setTransactionState] = useState({ amount: "", description: "", category: "others", date: "" });
   const handlerAmountChange = (textNumber) => {
     const isNumberValid = validateAmount(textNumber);
     if (!isNumberValid) return;
@@ -33,6 +35,49 @@ function TransactionForm({ isEdit, transaction }) {
     if (!isValidDescription) return;
     setTransactionState((prev) => ({ ...prev, description: descriptionText }));
   };
+  const handlerCategoryChange = (value) => {
+    setTransactionState((prev) => ({ ...prev, category: value }));
+  };
+  const handleDateChange = (text = "") => {
+    // Verifica si el usuario está borrando
+    if (text.length < transactionState.date.length) {
+      return setTransactionState({
+        ...transactionState,
+        date: text,
+      });
+    }
+
+    // Permite solo números y un máximo de 2 para el día y mes y 4 para el año
+    const textWithOnlyNumbers = text.replace(/[^0-9]/g, "");
+    if (textWithOnlyNumbers.length > 8) return;
+
+    let formattedDate = "";
+
+    // Aplica el formato con el "/" automáticamente
+    if (textWithOnlyNumbers.length <= 2) {
+      formattedDate = textWithOnlyNumbers;
+    } else if (textWithOnlyNumbers.length <= 4) {
+      formattedDate = textWithOnlyNumbers.slice(0, 2) + "/" + textWithOnlyNumbers.slice(2, 4);
+    } else {
+      formattedDate = textWithOnlyNumbers.slice(0, 2) + "/" + textWithOnlyNumbers.slice(2, 4) + "/" + textWithOnlyNumbers.slice(4);
+    }
+
+    // Setea el nuevo valor formateado
+    setTransactionState({
+      ...transactionState,
+      date: formattedDate,
+    });
+  };
+
+  const pickerRef = useRef();
+
+  function open() {
+    pickerRef.current.focus();
+  }
+
+  function close() {
+    pickerRef.current.blur();
+  }
   useEffect(() => {
     if (isEdit && transaction) setTransactionState(transaction);
   }, []);
@@ -55,11 +100,22 @@ function TransactionForm({ isEdit, transaction }) {
       </View>
       <View style={styles.group}>
         <Text style={styles.text}>Categoria</Text>
-        <TextInput style={styles.input} keyboardType="numeric" placeholderTextColor={"#ACBAB5"} placeholder="Monto" />
+        <TouchableOpacity style={styles.select} onPress={open}>
+          <Text style={{ color: "#fff", fontSize: 20, fontWeight: "bold" }}>{categories[transactionState.category]}</Text>
+          <Entypo name="chevron-down" size={24} color="#fff" />
+        </TouchableOpacity>
+        <View style={styles.pickerContainer}>
+          <Picker ref={pickerRef} selectedValue={transactionState.category} onValueChange={(itemValue, itemIndex) => handlerCategoryChange(itemValue)}>
+            {Object.keys(categories).map((key, index) => {
+              return <Picker.Item key={index} label={categories[key]} value={key} />;
+            })}
+          </Picker>
+        </View>
       </View>
+
       <View style={styles.group}>
         <Text style={styles.text}>Fecha</Text>
-        <TextInput style={styles.input} keyboardType="numeric" placeholderTextColor={"#ACBAB5"} placeholder="Monto" />
+        <TextInput style={styles.input} value={transactionState.date} placeholderTextColor={"#ACBAB5"} onChangeText={handleDateChange} placeholder="10/06/2023" />
       </View>
       <View style={styles.group}>
         <TouchableOpacity style={styles.button}>
@@ -77,6 +133,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   group: {
+    flexDirection: "column",
     gap: 5,
     width: "100%",
     alignItems: "center",
@@ -104,6 +161,16 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     color: "#1d2321",
     textTransform: "uppercase",
+  },
+  //picker
+  pickerContainer: {
+    backgroundColor: "#000",
+    display: "none",
+  },
+  select: {
+    width: "100%",
+    flexDirection: "row",
+    gap: 3,
   },
 });
 
