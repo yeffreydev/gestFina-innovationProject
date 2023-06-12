@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import { validateAmount } from "./helpers";
+import { validateAmount, validateDescription } from "./helpers";
 const categories = {
   food: "Comida",
 };
 
 function TransactionForm({ isEdit, transaction }) {
-  const [transactionState, setTransactionState] = useState({ amount: "" });
+  const [transactionState, setTransactionState] = useState({ amount: "", description: "" });
   const handlerAmountChange = (textNumber) => {
     const isNumberValid = validateAmount(textNumber);
-    if (isNumberValid) setTransactionState((prev) => ({ ...prev, amount: textNumber }));
+    if (!isNumberValid) return;
+    setTransactionState((prev) => ({ ...prev, amount: textNumber }));
+  };
+  const handlerDescriptionChange = (descriptionText) => {
+    const isValidDescription = validateDescription(descriptionText);
+    if (!isValidDescription) return;
+    setTransactionState((prev) => ({ ...prev, description: descriptionText }));
   };
   useEffect(() => {
     if (isEdit && transaction) setTransactionState(transaction);
@@ -22,7 +28,14 @@ function TransactionForm({ isEdit, transaction }) {
       </View>
       <View style={styles.group}>
         <Text style={styles.text}>Descripción</Text>
-        <TextInput style={[styles.input, { textAlignVertical: "top", height: 100 }]} multiline placeholderTextColor={"#ACBAB5"} placeholder="Descripción" />
+        <TextInput
+          style={[styles.input, { textAlignVertical: "top", height: 100 }]}
+          value={transactionState.description}
+          onChangeText={handlerDescriptionChange}
+          multiline
+          placeholderTextColor={"#ACBAB5"}
+          placeholder="Descripción"
+        />
       </View>
       <View style={styles.group}>
         <Text style={styles.text}>Categoria</Text>

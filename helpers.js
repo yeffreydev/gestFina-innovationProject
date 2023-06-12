@@ -18,7 +18,8 @@ export const validateAmount = (number = "") => {
 };
 
 export const validateDescription = (description = "") => {
-  if (description.length > 300) {
+  if (description.length > 500) {
     return false;
   }
+  return true;
 };
