@@ -25,12 +25,16 @@ const categories = {
 
 function TransactionForm({ isEdit, transaction }) {
   const [transactionState, setTransactionState] = useState({ amount: "", description: "", category: "others", date: "" });
+  const [formError, setFormError] = useState("");
   const handlerAmountChange = (textNumber) => {
+    setFormError("");
     const isNumberValid = validateAmount(textNumber);
     if (!isNumberValid) return;
     setTransactionState((prev) => ({ ...prev, amount: textNumber }));
   };
   const handlerDescriptionChange = (descriptionText) => {
+    setFormError("");
+
     const isValidDescription = validateDescription(descriptionText);
     if (!isValidDescription) return;
     setTransactionState((prev) => ({ ...prev, description: descriptionText }));
@@ -39,6 +43,7 @@ function TransactionForm({ isEdit, transaction }) {
     setTransactionState((prev) => ({ ...prev, category: value }));
   };
   const handlerDateChange = (text = "") => {
+    setFormError("");
     // Verifica si el usuario está borrando
     if (text.length < transactionState.date.length) {
       return setTransactionState({
@@ -46,7 +51,13 @@ function TransactionForm({ isEdit, transaction }) {
         date: text,
       });
     }
-
+    //si el caracter / esta en la posicion correcta, entonces esta bien
+    if ((text.length === 3 || text.length === 6) && text[text.length - 1] == "/") {
+      return setTransactionState({
+        ...transactionState,
+        date: text,
+      });
+    }
     // Permite solo números y un máximo de 2 para el día y mes y 4 para el año
     const textWithOnlyNumbers = text.replace(/[^0-9]/g, "");
     if (textWithOnlyNumbers.length > 8) return;
@@ -69,6 +80,22 @@ function TransactionForm({ isEdit, transaction }) {
     });
   };
 
+  const handlerSave = () => {
+    if (!transactionState.amount) {
+      return setFormError("el monto esta vacío");
+    }
+    if (!transactionState.description) {
+      return setFormError("la descripción esta vacía");
+    }
+    if (!transactionState.date) {
+      return setFormError("la fecha esta vacía");
+    }
+    if (transactionState.date.length !== 10) {
+      return setFormError("fecha incorrecta");
+    }
+
+    //if all is correct, so save data
+  };
   const pickerRef = useRef();
 
   function open() {
@@ -125,7 +152,10 @@ function TransactionForm({ isEdit, transaction }) {
         <TextInput style={[styles.input, styles.inputDate]} value={transactionState.date} placeholderTextColor={"#ACBAB5"} onChangeText={handlerDateChange} placeholder="10/06/2023" />
       </View>
       <View style={styles.group}>
-        <TouchableOpacity style={styles.button}>
+        <Text style={[styles.text, { color: "#FF8585" }]}>{formError}</Text>
+      </View>
+      <View style={styles.group}>
+        <TouchableOpacity style={styles.button} onPress={handlerSave}>
           <Text style={styles.btnTxt}>{isEdit ? "Actualizar" : "Crear"}</Text>
         </TouchableOpacity>
       </View>
