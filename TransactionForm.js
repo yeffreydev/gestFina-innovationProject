@@ -38,7 +38,7 @@ function TransactionForm({ isEdit, transaction }) {
   const handlerCategoryChange = (value) => {
     setTransactionState((prev) => ({ ...prev, category: value }));
   };
-  const handleDateChange = (text = "") => {
+  const handlerDateChange = (text = "") => {
     // Verifica si el usuario está borrando
     if (text.length < transactionState.date.length) {
       return setTransactionState({
@@ -85,7 +85,14 @@ function TransactionForm({ isEdit, transaction }) {
     <View style={styles.container}>
       <View style={styles.group}>
         <Text style={styles.text}>Monto</Text>
-        <TextInput style={styles.input} value={transactionState.amount} onChangeText={handlerAmountChange} keyboardType="numeric" placeholderTextColor={"#ACBAB5"} placeholder="Monto" />
+        <TextInput
+          style={[styles.input, styles.inputAmount, transactionState.amount < 0 || transactionState.amount.startsWith("-") ? styles.inputNegativeAmount : {}]}
+          value={transactionState.amount}
+          onChangeText={handlerAmountChange}
+          keyboardType="numeric"
+          placeholderTextColor={"#ACBAB5"}
+          placeholder="Monto"
+        />
       </View>
       <View style={styles.group}>
         <Text style={styles.text}>Descripción</Text>
@@ -115,7 +122,7 @@ function TransactionForm({ isEdit, transaction }) {
 
       <View style={styles.group}>
         <Text style={styles.text}>Fecha</Text>
-        <TextInput style={styles.input} value={transactionState.date} placeholderTextColor={"#ACBAB5"} onChangeText={handleDateChange} placeholder="10/06/2023" />
+        <TextInput style={[styles.input, styles.inputDate]} value={transactionState.date} placeholderTextColor={"#ACBAB5"} onChangeText={handlerDateChange} placeholder="10/06/2023" />
       </View>
       <View style={styles.group}>
         <TouchableOpacity style={styles.button}>
@@ -147,7 +154,22 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: "#1d2321",
     width: "100%",
+    fontSize: 17,
     color: "#CEDCD7",
+  },
+  inputAmount: {
+    fontSize: 20,
+    color: "#78FBD3",
+    fontWeight: "bold",
+    paddingVertical: 5,
+  },
+  inputNegativeAmount: {
+    color: "#FF8585",
+  },
+  inputDate: {
+    fontSize: 20,
+    fontWeight: "bold",
+    paddingVertical: 5,
   },
   button: {
     backgroundColor: "#83B7C2",
