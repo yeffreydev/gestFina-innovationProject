@@ -7,8 +7,8 @@ import db from "./db";
 import { categories } from "./categories";
 import { AppContext } from "./AppState";
 
-function TransactionForm({ isEdit, transaction, navigation }) {
-  const { addTransaction } = useContext(AppContext);
+function TransactionForm({ isEdit, navigation }) {
+  const { addTransaction, transactionSelected } = useContext(AppContext);
   const [transactionState, setTransactionState] = useState({ amount: "", description: "", category: "others", date: "" });
   const [formError, setFormError] = useState("");
   const handlerAmountChange = (textNumber) => {
@@ -91,7 +91,7 @@ function TransactionForm({ isEdit, transaction, navigation }) {
   }
 
   useEffect(() => {
-    if (isEdit && transaction) setTransactionState(transaction);
+    if (isEdit) setTransactionState({ ...transactionSelected, amount: transactionSelected.amount.toString() });
   }, []);
 
   const createNewTransaction = () => {

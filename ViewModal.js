@@ -4,9 +4,11 @@ import { useContext } from "react";
 import { AppContext } from "./AppState";
 
 import { AntDesign } from "@expo/vector-icons";
-<AntDesign name="edit" size={24} color="black" />;
+
+import { categories } from "./categories";
+
 export function ViewModal({ navigation }) {
-  const { setAppState } = useContext(AppContext);
+  const { setAppState, transactionSelected } = useContext(AppContext);
   const closeModal = () => {
     setAppState({ isOpenModal: false });
   };
@@ -14,11 +16,15 @@ export function ViewModal({ navigation }) {
     closeModal();
     navigation.navigate("EditTransaction");
   };
+
+  if (!transactionSelected) return null;
+  const { amount, description, category, date } = transactionSelected;
+
   return (
     <>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.lightText}>01 de junio del 2023 13:00PM</Text>
+          <Text style={styles.lightText}>{"Fecha: " + date}</Text>
           <TouchableOpacity onPress={closeModal}>
             <FontAwesome name="close" size={24} color="#fff" />
           </TouchableOpacity>
@@ -30,14 +36,11 @@ export function ViewModal({ navigation }) {
           </TouchableOpacity>
         </View>
         <View style={styles.amountContent}>
-          <Text style={[styles.amount, styles.amount, styles.positiveAmount]}>100</Text>
-          <Text style={[styles.darkText, { fontStyle: "italic", fontWeight: "300" }]}>Comida</Text>
+          <Text style={[styles.amount, styles.amount, !(amount > 0) && styles.negativeAmount]}>S/. {amount}</Text>
+          <Text style={[styles.darkText, { fontStyle: "italic", fontWeight: "300" }]}>{categories[category]}</Text>
         </View>
         <View style={styles.description}>
-          <Text style={styles.descriptionText}>
-            lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Quisquam
-          </Text>
+          <Text style={styles.descriptionText}>{description}</Text>
         </View>
         <View style={styles.footer}>
           <Text style={styles.footerText}>Eliminar Transacción</Text>
@@ -74,9 +77,10 @@ const styles = StyleSheet.create({
     fontSize: 50,
     fontStyle: "italic",
     fontWeight: "bold",
-  },
-  positiveAmount: {
     color: "#00aa99",
+  },
+  negativeAmount: {
+    color: "#FF8585",
   },
   darkText: {
     color: "#373F40",

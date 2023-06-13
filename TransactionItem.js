@@ -4,7 +4,7 @@ import { AppContext } from "./AppState";
 import { categories } from "./categories";
 
 export function TransactionItem({ item }) {
-  const { setAppState, appState } = useContext(AppContext);
+  const { setAppState, appState, setTransactionSelected } = useContext(AppContext);
 
   const openModal = () => {
     setAppState({
@@ -12,8 +12,13 @@ export function TransactionItem({ item }) {
       isOpenModal: true,
     });
   };
+
+  const handlerPressTransaction = () => {
+    openModal();
+    setTransactionSelected(item);
+  };
   return (
-    <TouchableOpacity style={styles.container} onPress={openModal}>
+    <TouchableOpacity style={styles.container} onPress={handlerPressTransaction}>
       <View style={styles.top}>
         <Text style={styles.topText}>{categories[item.category]}</Text>
         <Text style={styles.topText}>{item.date}</Text>
