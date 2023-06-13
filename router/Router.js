@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../screens/Home";
 import NewTransaction from "../screens/NewTransaction";
 import EditTrasaction from "../screens/EditTransaction";
+
 const Stack = createNativeStackNavigator();
 
 const Router = () => {

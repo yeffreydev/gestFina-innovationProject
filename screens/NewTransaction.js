@@ -1,9 +1,9 @@
 import { View, StyleSheet } from "react-native";
 import TransactionForm from "../TransactionForm";
-function NewTransaction() {
+function NewTransaction({ navigation }) {
   return (
     <View style={styles.container}>
-      <TransactionForm />
+      <TransactionForm navigation={navigation} />
     </View>
   );
 }

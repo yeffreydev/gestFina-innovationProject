@@ -3,7 +3,7 @@ import TransactionForm from "../TransactionForm";
 function EditTrasaction({ navigation }) {
   return (
     <View style={styles.container}>
-      <TransactionForm isEdit={true} />
+      <TransactionForm navigation={navigation} isEdit={true} />
     </View>
   );
 }
