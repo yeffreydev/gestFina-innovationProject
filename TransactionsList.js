@@ -1,5 +1,8 @@
-import { ScrollView, View, StyleSheet, Text, FlatList } from "react-native";
+import { StyleSheet, FlatList } from "react-native";
 import { TransactionItem } from "./TransactionItem";
+import db from "./db";
+import { useState, useEffect } from "react";
+
 const data = [
   {
     amount: 100,
@@ -184,7 +187,17 @@ const data = [
 ];
 
 export function TransactionsList() {
-  return <FlatList style={styles.container} data={data} renderItem={({ item }) => <TransactionItem item={item} />} />;
+  const [transactions, setTransactions] = useState([]);
+  useEffect(() => {
+    db.transaction(
+      (tx) => {
+        tx.executeSql("select * from transactions", [], (_, { rows }) => setTransactions(rows._array));
+      },
+      null,
+      () => {}
+    );
+  }, []);
+  return <FlatList style={styles.container} data={transactions} renderItem={({ item }) => <TransactionItem item={item} />} />;
 }
 
 const styles = StyleSheet.create({

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-nativ
 import { validateAmount, validateDescription } from "./helpers";
 import { Entypo } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-
+import db from "./db";
 const categories = {
   salary: "Salario",
   investmentIncome: "Ingresos por Inversiones",
@@ -95,6 +95,9 @@ function TransactionForm({ isEdit, transaction }) {
     }
 
     //if all is correct, so save data
+    if (!isEdit) {
+      return createNewTransaction();
+    }
   };
   const pickerRef = useRef();
 
@@ -108,6 +111,24 @@ function TransactionForm({ isEdit, transaction }) {
   useEffect(() => {
     if (isEdit && transaction) setTransactionState(transaction);
   }, []);
+
+  const createNewTransaction = () => {
+    db.transaction(
+      (tx) => {
+        tx.executeSql("insert into transactions (amount, description, category, date) values(?, ?, ?, ?)", [
+          transactionState.amount,
+          transactionState.description,
+          transactionState.category,
+          transactionState.date,
+        ]);
+        // tx.executeSql("select * from transactions", [], (_, { rows }) => console.log(JSON.stringify(rows)));
+      },
+      null,
+      () => {
+        //go to home
+      }
+    );
+  };
   return (
     <View style={styles.container}>
       <View style={styles.group}>

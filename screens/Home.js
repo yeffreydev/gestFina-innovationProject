@@ -1,4 +1,4 @@
-import { StyleSheet, StatusBar, SafeAreaView, View, ScrollView } from "react-native";
+import { StyleSheet, StatusBar, SafeAreaView } from "react-native";
 import { NavBar } from "./../NavBar";
 import { Balance } from "./../Balance";
 import { TransactionsList } from "./../TransactionsList";
