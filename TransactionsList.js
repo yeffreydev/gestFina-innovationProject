@@ -1,7 +1,7 @@
 import { StyleSheet, FlatList } from "react-native";
 import { TransactionItem } from "./TransactionItem";
 import db from "./db";
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { AppContext } from "./AppState";
 export function TransactionsList() {
   const { transactions, setTransactions } = useContext(AppContext);
