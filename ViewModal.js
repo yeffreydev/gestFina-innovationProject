@@ -9,7 +9,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { categories } from "./categories";
 
 export function ViewModal({ navigation }) {
-  const { setAppState, transactionSelected, removeTransaction, setTransactionSelected } = useContext(AppContext);
+  const { setAppState, transactionSelected, removeTransaction } = useContext(AppContext);
   const closeModal = () => {
     setAppState({ isOpenModal: false });
   };
@@ -45,7 +45,6 @@ export function ViewModal({ navigation }) {
           onPress: () => {
             deleteTransaction();
             removeTransaction(transactionSelected.id);
-            setTransactionSelected(null);
             closeModal();
           },
         },

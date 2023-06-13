@@ -8,8 +8,8 @@ import { categories } from "./categories";
 import { AppContext } from "./AppState";
 
 function TransactionForm({ isEdit, navigation }) {
-  const { addTransaction, transactionSelected } = useContext(AppContext);
-  const [transactionState, setTransactionState] = useState({ amount: "", description: "", category: "others", date: "" });
+  const { addTransaction, transactionSelected, updateTransaction } = useContext(AppContext);
+  const [transactionState, setTransactionState] = useState({ id: "", amount: "", description: "", category: "others", date: "" });
   const [formError, setFormError] = useState("");
   const handlerAmountChange = (textNumber) => {
     setFormError("");
@@ -69,7 +69,7 @@ function TransactionForm({ isEdit, navigation }) {
     if (!transactionState.amount) {
       return setFormError("el monto esta vacío");
     }
-    if (!transactionState.description) {
+    if (!transactionState.description.trim()) {
       return setFormError("la descripción esta vacía");
     }
     if (!transactionState.date) {
@@ -80,9 +80,8 @@ function TransactionForm({ isEdit, navigation }) {
     }
 
     //if all is correct, so save data
-    if (!isEdit) {
-      return createNewTransaction();
-    }
+    if (!isEdit) return createNewTransaction(); //new transaction
+    putTransaction(); //put transaction
   };
   const pickerRef = useRef();
 
@@ -91,9 +90,26 @@ function TransactionForm({ isEdit, navigation }) {
   }
 
   useEffect(() => {
-    if (isEdit) setTransactionState({ ...transactionSelected, amount: transactionSelected.amount.toString() });
+    if (isEdit) setTransactionState({ ...transactionSelected, amount: transactionSelected.amount.toString(), id: transactionSelected.id.toString() });
   }, []);
 
+  const putTransaction = () => {
+    db.transaction(
+      (tx) => {
+        tx.executeSql("update transactions set amount = ?, description = ?, category = ?, date = ? where id = ?", [
+          transactionState.amount,
+          transactionState.description,
+          transactionState.category,
+          transactionState.date,
+          transactionState.id,
+        ]);
+        updateTransaction(transactionState);
+        navigation.navigate("Home");
+      },
+      null,
+      () => {}
+    );
+  };
   const createNewTransaction = () => {
     db.transaction(
       (tx) => {
