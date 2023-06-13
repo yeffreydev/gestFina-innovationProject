@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { useContext } from "react";
 import { AppContext } from "./AppState";
@@ -39,9 +39,9 @@ export function ViewModal({ navigation }) {
           <Text style={[styles.amount, styles.amount, !(amount > 0) && styles.negativeAmount]}>S/. {amount}</Text>
           <Text style={[styles.darkText, { fontStyle: "italic", fontWeight: "300" }]}>{categories[category]}</Text>
         </View>
-        <View style={styles.description}>
+        <ScrollView style={styles.description}>
           <Text style={styles.descriptionText}>{description}</Text>
-        </View>
+        </ScrollView>
         <View style={styles.footer}>
           <Text style={styles.footerText}>Eliminar Transacción</Text>
           <TouchableOpacity style={styles.deleteButton}>
@@ -59,11 +59,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   amountContent: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
   description: {
+    flex: 1,
     paddingHorizontal: "5%",
     paddingBottom: 10,
   },
