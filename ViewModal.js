@@ -1,14 +1,15 @@
-import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from "react-native";
+import { Alert, View, StyleSheet, Text, TouchableOpacity, ScrollView } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { useContext } from "react";
 import { AppContext } from "./AppState";
+import db from "./db";
 
 import { AntDesign } from "@expo/vector-icons";
 
 import { categories } from "./categories";
 
 export function ViewModal({ navigation }) {
-  const { setAppState, transactionSelected } = useContext(AppContext);
+  const { setAppState, transactionSelected, removeTransaction, setTransactionSelected } = useContext(AppContext);
   const closeModal = () => {
     setAppState({ isOpenModal: false });
   };
@@ -20,6 +21,38 @@ export function ViewModal({ navigation }) {
   if (!transactionSelected) return null;
   const { amount, description, category, date } = transactionSelected;
 
+  const deleteTransaction = () => {
+    if (!transactionSelected.id) return;
+    db.transaction(
+      (tx) => {
+        tx.executeSql("DELETE FROM transactions WHERE id = ?", [transactionSelected.id]);
+      },
+      null,
+      () => {}
+    );
+  };
+  const handlerDelete = () => {
+    Alert.alert(
+      "Confirmación",
+      "¿Estás seguro de que quieres continuar?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            deleteTransaction();
+            removeTransaction(transactionSelected.id);
+            setTransactionSelected(null);
+            closeModal();
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
   return (
     <>
       <View style={styles.container}>
@@ -44,7 +77,7 @@ export function ViewModal({ navigation }) {
         </ScrollView>
         <View style={styles.footer}>
           <Text style={styles.footerText}>Eliminar Transacción</Text>
-          <TouchableOpacity style={styles.deleteButton}>
+          <TouchableOpacity style={styles.deleteButton} onPress={handlerDelete}>
             <Text style={{ color: "#fff", fontWeight: "bold" }}>Eliminar</Text>
           </TouchableOpacity>
         </View>

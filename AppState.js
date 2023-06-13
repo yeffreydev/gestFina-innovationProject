@@ -6,6 +6,7 @@ const initialState = {
   transactionSelected: null,
   setTransactions: () => {},
   addTransaction: () => {},
+  removeTransaction: () => {},
   setTransactionSelected: () => {},
   setAppState: () => {},
 };
@@ -24,5 +25,16 @@ export const AppProvider = ({ children }) => {
     setTransactions([transaction, ...transactions]);
   };
 
-  return <AppContext.Provider value={{ appState, transactionSelected, setTransactionSelected, setAppState, transactions, addTransaction, setTransactions }}>{children}</AppContext.Provider>;
+  //remove transaction
+
+  const removeTransaction = (id) => {
+    const newTransactions = transactions.filter((transaction) => transaction.id !== id);
+    setTransactions(newTransactions);
+  };
+
+  return (
+    <AppContext.Provider value={{ appState, transactionSelected, setTransactionSelected, setAppState, transactions, addTransaction, removeTransaction, setTransactions }}>
+      {children}
+    </AppContext.Provider>
+  );
 };
