@@ -6,9 +6,10 @@ import { Picker } from "@react-native-picker/picker";
 import db from "./db";
 import { categories } from "./categories";
 import { AppContext } from "./AppState";
+import { insertTransaction, updateTransaction } from "./sqlite/transactions";
 
 function TransactionForm({ isEdit, navigation }) {
-  const { addTransaction, transactionSelected, updateTransaction } = useContext(AppContext);
+  const { addTransaction, transactionSelected } = useContext(AppContext);
   const [transactionState, setTransactionState] = useState({ id: "", amount: "", description: "", category: "others", date: getTodayDate() });
   const [formError, setFormError] = useState("");
   const handlerAmountChange = (textNumber) => {
@@ -102,45 +103,21 @@ function TransactionForm({ isEdit, navigation }) {
     }
   }, []);
 
+  const resetTransactionState = () => {
+    setTransactionState({ amount: "", description: "", category: "others", date: "" });
+  };
+
   const putTransaction = () => {
-    const amount = parseFloat(transactionState.amount).toFixed(2);
-    db.transaction(
-      (tx) => {
-        tx.executeSql("update transactions set amount = ?, description = ?, category = ?, date = ? where id = ?", [
-          amount,
-          transactionState.description,
-          transactionState.category,
-          transactionState.date,
-          transactionState.id,
-        ]);
-        updateTransaction({ ...transactionState, amount });
-        navigation.navigate("Home");
-      },
-      null,
-      () => {}
-    );
+    updateTransaction(transactionState);
+    addTransaction(transactionState.category);
+    resetTransactionState();
+    navigation.navigate("Home");
   };
   const createNewTransaction = () => {
-    const amount = parseFloat(transactionState.amount).toFixed(2);
-    db.transaction(
-      (tx) => {
-        tx.executeSql(
-          "insert into transactions (amount, description, category, date) values(?, ?, ?, ?)",
-          [amount, transactionState.description, transactionState.category, transactionState.date],
-          (tx, results) => {
-            const insertedId = results.insertId;
-            tx.executeSql("select * from transactions where id = ?", [insertedId], (_, { rows }) => {
-              const transaction = rows._array[0];
-              addTransaction(transaction);
-              setTransactionState({ amount: "", description: "", category: "others", date: "" });
-              navigation.navigate("Home");
-            });
-          }
-        );
-      },
-      null,
-      () => {}
-    );
+    insertTransaction(transactionState);
+    addTransaction(transactionState.category);
+    resetTransactionState();
+    navigation.navigate("Home");
   };
   return (
     <View style={styles.container}>

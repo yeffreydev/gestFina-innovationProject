@@ -5,10 +5,10 @@ import { Entypo } from "@expo/vector-icons";
 import { AppContext } from "./AppState";
 import { categories } from "./categories";
 import db from "./db";
+import { readAllTransactions, readTransactionsByCategory } from "./sqlite/transactions";
 const balanceCategories = { all: "Todos", ...categories };
 export function Balance() {
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const { transactions, setTransactions } = useContext(AppContext);
+  const { transactions, setTransactions, filterCategory, setFilterCategory } = useContext(AppContext);
   const pickerRef = useRef();
 
   function open() {
@@ -42,23 +42,15 @@ export function Balance() {
   };
 
   const changeCategory = (category) => {
-    setSelectedCategory(category);
+    setFilterCategory(category);
     if (category === "all") {
-      return db.transaction(
-        (tx) => {
-          tx.executeSql("select * from transactions", [], (_, { rows }) => setTransactions(rows._array.reverse()));
-        },
-        null,
-        () => {}
-      );
+      return readAllTransactions((data) => {
+        setTransactions(data);
+      });
     }
-    db.transaction(
-      (tx) => {
-        tx.executeSql("select * from transactions where category = ?", [category], (_, { rows }) => setTransactions(rows._array.reverse()));
-      },
-      null,
-      () => {}
-    );
+    readTransactionsByCategory(category, (data) => {
+      setTransactions(data);
+    });
   };
   return (
     <View style={styles.container}>
@@ -67,11 +59,11 @@ export function Balance() {
         <Text style={[styles.balanceText, getBalance() < 0 && styles.negativeBalanceText, getBalance().toString().length > 10 && { fontSize: 15 }]}>S/. {getBalance()}</Text>
       </View>
       <TouchableOpacity style={styles.select} onPress={open}>
-        <Text style={{ color: "#fff", fontSize: 20, fontWeight: "bold" }}>{balanceCategories[selectedCategory]}</Text>
+        <Text style={{ color: "#fff", fontSize: 20, fontWeight: "bold" }}>{balanceCategories[filterCategory]}</Text>
         <Entypo name="chevron-down" size={24} color="#fff" />
       </TouchableOpacity>
       <View style={styles.pickerContainer}>
-        <Picker ref={pickerRef} selectedValue={selectedCategory} onValueChange={(itemValue, itemIndex) => changeCategory(itemValue)}>
+        <Picker ref={pickerRef} selectedValue={filterCategory} onValueChange={(itemValue, itemIndex) => changeCategory(itemValue)}>
           {Object.keys(balanceCategories).map((key, index) => {
             return <Picker.Item key={index} label={balanceCategories[key]} value={key} />;
           })}
