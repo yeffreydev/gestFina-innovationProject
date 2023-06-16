@@ -6,6 +6,7 @@ import { categories } from "./categories";
 export function TransactionItem({ item }) {
   const { setAppState, appState, setTransactionSelected } = useContext(AppContext);
 
+  const amount = parseFloat(item.amount).toFixed(2).toString();
   const openModal = () => {
     setAppState({
       ...appState,
@@ -24,7 +25,7 @@ export function TransactionItem({ item }) {
         <Text style={styles.topText}>{item.date}</Text>
       </View>
       <View style={styles.content}>
-        <Text style={[styles.amountText, !(item.amount < 0) ? {} : styles.negativeAmountText]}>S/. {item.amount}</Text>
+        <Text style={[styles.amountText, !(item.amount < 0) ? {} : styles.negativeAmountText]}>S/. {amount}</Text>
         <Text style={styles.descriptionText}>{!(item.description.length > 80) ? item.description : `${item.description.slice(0, 80)}...`}</Text>
       </View>
     </TouchableOpacity>
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     maxWidth: "40%",
     minWidth: "20%",
-    fontSize: 22,
+    fontSize: 16,
   },
   negativeAmountText: {
     color: "#FF8585",
