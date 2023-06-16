@@ -68,7 +68,7 @@ export function ViewModal({ navigation }) {
           </TouchableOpacity>
         </View>
         <View style={styles.amountContent}>
-          <Text style={[styles.amount, styles.amount, !(amount > 0) && styles.negativeAmount]}>S/. {amount}</Text>
+          <Text style={[styles.amount, styles.amount, !(amount > 0) && styles.negativeAmount, amount.toString().length > 8 && { fontSize: 30 }]}>S/. {amount}</Text>
           <Text style={[styles.darkText, { fontStyle: "italic", fontWeight: "300" }]}>{categories[category]}</Text>
         </View>
         <ScrollView style={styles.description}>
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   amount: {
-    fontSize: 50,
+    fontSize: 40,
     fontStyle: "italic",
     fontWeight: "bold",
     color: "#00aa99",
