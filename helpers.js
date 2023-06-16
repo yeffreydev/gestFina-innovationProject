@@ -23,3 +23,13 @@ export const validateDescription = (description = "") => {
   }
   return true;
 };
+
+export const getTodayDate = () => {
+  let date = "";
+  const d = new Date();
+  const day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
+  const month = d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
+  const year = d.getFullYear();
+  date += `${day}/${month}/${year}`;
+  return date;
+};

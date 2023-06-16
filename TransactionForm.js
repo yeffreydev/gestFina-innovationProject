@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useContext } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import { validateAmount, validateDescription } from "./helpers";
+import { validateAmount, validateDescription, getTodayDate } from "./helpers";
 import { Entypo } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import db from "./db";
@@ -9,7 +9,7 @@ import { AppContext } from "./AppState";
 
 function TransactionForm({ isEdit, navigation }) {
   const { addTransaction, transactionSelected, updateTransaction } = useContext(AppContext);
-  const [transactionState, setTransactionState] = useState({ id: "", amount: "", description: "", category: "others", date: "" });
+  const [transactionState, setTransactionState] = useState({ id: "", amount: "", description: "", category: "others", date: getTodayDate() });
   const [formError, setFormError] = useState("");
   const handlerAmountChange = (textNumber) => {
     setFormError("");
@@ -94,10 +94,11 @@ function TransactionForm({ isEdit, navigation }) {
   }, []);
 
   const putTransaction = () => {
+    const amount = parseFloat(transactionState.amount).toFixed(2);
     db.transaction(
       (tx) => {
         tx.executeSql("update transactions set amount = ?, description = ?, category = ?, date = ? where id = ?", [
-          transactionState.amount,
+          amount,
           transactionState.description,
           transactionState.category,
           transactionState.date,
