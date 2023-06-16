@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-nativ
 import { validateAmount, validateDescription, getTodayDate } from "./helpers";
 import { Entypo } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-import db from "./db";
 import { categories } from "./categories";
 import { AppContext } from "./AppState";
 import { insertTransaction, updateTransaction } from "./sqlite/transactions";
@@ -20,7 +19,6 @@ function TransactionForm({ isEdit, navigation }) {
   };
   const handlerDescriptionChange = (descriptionText) => {
     setFormError("");
-
     const isValidDescription = validateDescription(descriptionText);
     if (!isValidDescription) return;
     setTransactionState((prev) => ({ ...prev, description: descriptionText }));
