@@ -111,11 +111,12 @@ function TransactionForm({ isEdit, navigation }) {
     );
   };
   const createNewTransaction = () => {
+    const amount = parseFloat(transactionState.amount).toFixed(2);
     db.transaction(
       (tx) => {
         tx.executeSql(
           "insert into transactions (amount, description, category, date) values(?, ?, ?, ?)",
-          [transactionState.amount, transactionState.description, transactionState.category, transactionState.date],
+          [amount, transactionState.description, transactionState.category, transactionState.date],
           (tx, results) => {
             const insertedId = results.insertId;
             tx.executeSql("select * from transactions where id = ?", [insertedId], (_, { rows }) => {

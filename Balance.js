@@ -21,24 +21,24 @@ export function Balance() {
   const getExpenses = () => {
     let expenses = 0;
     transactions.forEach((element) => {
-      if (element.amount < 0) expenses += parseInt(element.amount);
+      if (element.amount < 0) expenses += parseFloat(element.amount);
     });
-    return expenses.toString();
+    return expenses.toFixed(2).toString();
   };
 
   const getIncomes = () => {
     let incomes = 0;
     transactions.forEach((element) => {
-      if (element.amount > 0) incomes += parseInt(element.amount);
+      if (element.amount > 0) incomes += parseFloat(element.amount);
     });
-    return incomes.toString();
+    return incomes.toFixed(2).toString();
   };
   const getBalance = () => {
     let balance = 0;
     transactions.forEach((element) => {
-      balance += parseInt(element.amount);
+      balance += parseFloat(element.amount);
     });
-    return balance.toString();
+    return balance.toFixed(2).toString();
   };
 
   const changeCategory = (category) => {
