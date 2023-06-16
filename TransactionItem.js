@@ -58,12 +58,15 @@ const styles = StyleSheet.create({
   amountText: {
     color: "#78FBD3",
     fontWeight: "bold",
+    maxWidth: "40%",
+    minWidth: "20%",
     fontSize: 22,
   },
   negativeAmountText: {
     color: "#FF8585",
   },
   descriptionText: {
+    flex: 1,
     color: "#dbe3e5",
   },
 });
