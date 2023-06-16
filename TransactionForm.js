@@ -104,7 +104,7 @@ function TransactionForm({ isEdit, navigation }) {
           transactionState.date,
           transactionState.id,
         ]);
-        updateTransaction(transactionState);
+        updateTransaction({ ...transactionState, amount });
         navigation.navigate("Home");
       },
       null,
