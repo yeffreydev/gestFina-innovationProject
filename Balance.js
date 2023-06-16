@@ -64,7 +64,7 @@ export function Balance() {
     <View style={styles.container}>
       <View style={styles.balance}>
         <Text style={styles.text}>Balance</Text>
-        <Text style={[styles.balanceText, getBalance() < 0 && styles.negativeBalanceText]}>S/. {getBalance()}</Text>
+        <Text style={[styles.balanceText, getBalance() < 0 && styles.negativeBalanceText, getBalance().toString().length > 10 && { fontSize: 15 }]}>S/. {getBalance()}</Text>
       </View>
       <TouchableOpacity style={styles.select} onPress={open}>
         <Text style={{ color: "#fff", fontSize: 20, fontWeight: "bold" }}>{balanceCategories[selectedCategory]}</Text>
@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   balanceText: {
+    flex: 1,
     color: "#78FBD3",
     fontSize: 30,
     fontWeight: "bold",
@@ -124,7 +125,8 @@ const styles = StyleSheet.create({
   },
   balance: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: "center",
+    gap: 5,
   },
   resumen: {
     flexDirection: "row",
