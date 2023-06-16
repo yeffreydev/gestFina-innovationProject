@@ -90,7 +90,13 @@ function TransactionForm({ isEdit, navigation }) {
   }
 
   useEffect(() => {
-    if (isEdit) setTransactionState({ ...transactionSelected, amount: transactionSelected.amount.toString(), id: transactionSelected.id.toString() });
+    if (isEdit) {
+      const amountStr = transactionSelected.amount.toString();
+      const amountLength = amountStr.length;
+      let amount = amountLength > 15 ? amountStr.slice(0, -(amountLength - 15)) : amountStr;
+      amount = Number.isInteger(parseFloat(amount)) ? parseInt(amount).toString() : amount;
+      setTransactionState({ ...transactionSelected, amount, id: transactionSelected.id.toString() });
+    }
   }, []);
 
   const putTransaction = () => {
