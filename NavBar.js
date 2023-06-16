@@ -1,9 +1,9 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 export function NavBar({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>GestFina</Text>
+      <Image style={{ width: 49, height: 49 }} source={require("./assets/icon.png")} />
       <TouchableOpacity onPress={() => navigation.navigate("NewTransaction")}>
         <Entypo name="plus" size={40} color="#CEDCD7" />
       </TouchableOpacity>
