@@ -69,6 +69,9 @@ function TransactionForm({ isEdit, navigation }) {
     if (!transactionState.amount) {
       return setFormError("el monto esta vacío");
     }
+    if (isNaN(transactionState.amount)) {
+      return setFormError("ingresa un monto válido");
+    }
     if (!transactionState.description.trim()) {
       return setFormError("la descripción esta vacía");
     }
