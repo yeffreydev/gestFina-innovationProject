@@ -174,7 +174,7 @@ function TransactionForm({ isEdit, navigation }) {
 
       <View style={styles.group}>
         <Text style={styles.text}>Fecha</Text>
-        <TextInput style={[styles.input, styles.inputDate]} value={transactionState.date} placeholderTextColor={"#ACBAB5"} onChangeText={handlerDateChange} placeholder="10/06/2023" />
+        <TextInput style={[styles.input, styles.inputDate]} value={transactionState.date} placeholderTextColor={"#ACBAB5"} onChangeText={handlerDateChange} placeholder={getTodayDate()} />
       </View>
       <View style={styles.group}>
         <Text style={[styles.text, { color: "#FF8585" }]}>{formError}</Text>
