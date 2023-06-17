@@ -23,7 +23,7 @@ body {
   gap: 50px;
 }
 .title {
-  text-align: left;
+  text-align: center;
 }
 .description {
   text-align: justify;
@@ -54,6 +54,9 @@ body {
 @media (min-width: 768px) {
   body {
     width: 80%;
+  }
+  .title {
+    text-align: left;
   }
 }
 
